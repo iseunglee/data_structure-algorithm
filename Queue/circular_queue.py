@@ -36,9 +36,43 @@ class ArrayQueue:
         for i in range(self.front + 1, self.front + 1 + self.size()):
             print(self.array[i % self.capacity], end = " ")
         print("]")
+    
+    # 링 버퍼 구현을 위한 수정된 enqueue 연산
+    def enqueue2(self, item):
+        self.rear = (self.rear + 1) % self.capacity
+        self.array[self.rear] = item # 일단 무조건 삽입
+        if self.isEmpty(): # front == rear
+            self.front = (self.front + 1) % self.capacity # 삽입 후 front 회전 -> 가장 오래된 요소 삭제
 
-# 테스트
-import random
-q = ArrayQueue(8)
+# 원형 큐 테스트
+if __name__ == "__main__":
+    import random
+    q = ArrayQueue(8)
 
-q.display("초기상태")
+    q.display("초기상태")
+    while not q.isFull():
+        q.enqueue(random.randint(0, 100))
+    q.display("포화 상태")
+
+    print("삭제 순서: ", end = "")
+    while not q.isEmpty():
+        print(q.dequeue(), end = " ")
+    print()
+
+# 링 버퍼 테스트
+if __name__ == "__main__":
+    q = ArrayQueue(8)
+
+    q.display("초기상태")
+    for i in range(6):
+        q.enqueue2(i)
+    q.display("삽입 0-5")
+
+    q.enqueue2(6); q.enqueue2(7)
+    q.display("삽입 6, 7")
+
+    q.enqueue2(8); q.enqueue2(9)
+    q.display("삽입 8, 9")
+
+    q.dequeue(); q.dequeue()
+    q.display("삭제 x2")
