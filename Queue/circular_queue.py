@@ -43,7 +43,7 @@ class ArrayQueue:
         self.array[self.rear] = item # 일단 무조건 삽입
         if self.isEmpty(): # front == rear
             self.front = (self.front + 1) % self.capacity # 삽입 후 front 회전 -> 가장 오래된 요소 삭제
-
+    
 # 원형 큐 테스트
 if __name__ == "__main__":
     import random
